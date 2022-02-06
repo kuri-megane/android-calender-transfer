@@ -29,7 +29,7 @@ class CalenderListProvider {
 
         // カレンダーの総数取得
         val calContentValue = cur.count
-        Log.d("カレンダー", "総数: $calContentValue")
+        Log.d("リスト", "総数: $calContentValue")
 
         // カレンダー情報を保存するリスト
         val calenderKeyList : MutableList<Map<Long, String>> = mutableListOf()
@@ -44,7 +44,7 @@ class CalenderListProvider {
             // ログ出力 (Body)
             val sbBody = java.lang.StringBuilder()
             sbBody.append(id).append(',').append(name)
-            Log.d("カレンダー", sbBody.toString())
+            Log.d("リスト", sbBody.toString())
 
             // リストに保存
             val calender: Map<Long, String> = mapOf(id to name)

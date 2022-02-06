@@ -13,6 +13,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val calenderListProvider = CalenderListProvider()
         val calenderList = calenderListProvider.getCalenderList(applicationContext)
 
+        // イベントリストの取得
+        val eventListProvider = CalenderEventProvider()
+        val eventList = eventListProvider.getEvent(applicationContext)
 
     }
 
