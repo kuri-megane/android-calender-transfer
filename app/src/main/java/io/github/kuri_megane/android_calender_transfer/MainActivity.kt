@@ -16,8 +16,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         // カレンダーリストの取得
         val calenderListProvider = CalenderProvider()
-        // TODO: 型キャストの警告を修正する
-        val calenderList = calenderListProvider.getCalenderList(applicationContext) as MutableList<ItemInterface>
+        val calenderList = calenderListProvider.getCalenderList(applicationContext)
         calenderWriter.writeRecords(calenderList)
 
         // イベントリスト出力用CSVの準備
@@ -25,10 +24,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         eventWriter.writeHeader(EventItemToQuery() as ItemInterface)
 
         // イベントリストの取得
-        val eventListProvider = EventProvider()
-        // TODO: 型キャストの警告を修正する
-        val eventLists = eventListProvider.getEvent(applicationContext) as MutableList<ItemInterface>
-        eventWriter.writeRecords(eventLists)
+        val eventListProvider = EventReader()
+        val eventLists = eventListProvider.getEvent(applicationContext)
+        // eventWriter.writeEventRecords(eventLists)
+
+        // イベントの登録
+        val register = EventRegister(applicationContext)
+        register.registerEvent(eventLists)
 
     }
 

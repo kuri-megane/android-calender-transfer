@@ -40,6 +40,12 @@ class StorageReadWrite(context: Context, fileName : String) {
         }
     }
 
+    fun writeEventRecords(records: MutableList<EventItem>) {
+        for (r in records) {
+            writeFile(r.getCsvRecord(), true)
+        }
+    }
+
     // ファイルを保存
     private fun writeFile(record: String?, mode: Boolean) {
         if (isExternalStorageWritable()) {

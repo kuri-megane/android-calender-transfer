@@ -9,8 +9,7 @@ import android.util.Log
 
 class CalenderProvider {
 
-    fun getCalenderList(context: Context):
-            MutableList<CalenderItem> {
+    fun getCalenderList(context: Context): MutableList<ItemInterface> {
         val uri: Uri = CalendarContract.Calendars.CONTENT_URI
         val selection: String? = null
         val selectionArgs: Array<String>? = null
@@ -28,7 +27,7 @@ class CalenderProvider {
         Log.d("リスト", "総数: $calContentValue")
 
         // カレンダー情報を保存するリスト
-        val calenderList : MutableList<CalenderItem> = mutableListOf()
+        val calenderList: MutableList<ItemInterface> = mutableListOf()
 
         // 各プロパティの取得
         while (cur.moveToNext()) {
@@ -44,7 +43,7 @@ class CalenderProvider {
             Log.d("リスト", content)
 
             // リストに保存
-            calenderList.add(calender)
+            calenderList.add(calender as ItemInterface)
         }
 
         cur.close()

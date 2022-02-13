@@ -2,12 +2,13 @@ package io.github.kuri_megane.android_calender_transfer
 
 import android.content.Context
 import android.text.format.DateUtils
+import android.util.Log
 import java.util.*
 
-open class EventItem: ItemInterface {
+open class EventItem(private var context: Context) : ItemInterface {
 
     // イベントが属するカレンダーの_ID
-    var calenderId: String? =  null
+    var calenderId: String? = null
 
     // イベントの主催者(所有者)のメールアドレス。
     var organizer: String? = null
@@ -20,9 +21,9 @@ open class EventItem: ItemInterface {
 
     // イベントの説明
     var description: String? = "空っぽ"
-        get() {
-            return "\"" + field + "\""
-        }
+//        get() {
+//            return "\"" + field + "\""
+//        }
 
     // イベントの表示色
     var eventColor: String? = null
@@ -32,9 +33,23 @@ open class EventItem: ItemInterface {
 
     // エポックからの UTC ミリ秒単位で表現されたイベント終了時刻
     var dtend: String? = null
+        get() {
+            if (field == null && this.duration == null) {
+                Log.w("予定", "DT_END 値なし")
+                return this.dtstart
+            }
+            return field
+        }
 
     // イベントのタイムゾーン
     var eventTimezone: String? = null
+        get() {
+            if (field == null) {
+                Log.w("予定", "Timezone 値なし")
+                return "Asia/Tokyo"
+            }
+            return field
+        }
 
     // イベントの終了時刻のタイムゾーン
     var eventEndTimezone: String? = null
@@ -103,6 +118,16 @@ open class EventItem: ItemInterface {
     // イベントの実際の表示色 EVENT_COLORが未設定の場合にはCALENDAR_COLORが使用される
     var displayColor: String? = null
 
+    private val dtstartString: String
+        get() {
+            return getDateTimeText(context, this.eventTimezone, this.dtstart)
+        }
+
+    private val dtendString: String
+        get() {
+            return getDateTimeText(context, this.eventTimezone, this.dtend)
+        }
+
     override fun getValueArray(): Array<String?> {
         return arrayOf(
             this.calenderId,
@@ -113,11 +138,33 @@ open class EventItem: ItemInterface {
             this.eventColor,
             this.dtstart,
             this.dtend,
-            this.dtend,
             this.eventTimezone,
             this.eventEndTimezone,
             this.duration,
+            this.allDay,
+            this.rrule,
+            this.rdate,
+            this.exrule,
+            this.exdate,
+            this.originalId,
+            this.originalSyncId,
+            this.originalInstanceTime,
+            this.originalAllDay,
+            this.accessLevel,
+            this.availability,
+            this.guestsCanModify,
+            this.guestsCanInviteOthers,
+            this.guestsCanSeeGuests,
+            this.customAppPackage,
+            this.customAppURI,
+            this.uid2445,
+            this.displayColor,
         )
+    }
+
+    override fun getCsvRecord(): String {
+        val add = "," + this.dtstartString + "," + this.dtendString
+        return this.getValueArray().joinToString(separator = ",") + add + "\n"
     }
 
     /**
@@ -125,11 +172,17 @@ open class EventItem: ItemInterface {
      */
     private fun getDateTimeText(
         context: Context,
-        timeZone: String,
-        dateTimeInMillis: Long
-    ): String? {
+        timeZone: String?,
+        dateTimeInMillis: String?
+    ): String {
+        if (dateTimeInMillis == null) {
+            return "時刻空"
+        }
+        if (timeZone == null) {
+            return "タイムゾーン空"
+        }
         val calendar: Calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone(timeZone))
-        calendar.timeInMillis = dateTimeInMillis
+        calendar.timeInMillis = dateTimeInMillis.toLong()
         return DateUtils.formatDateRange(
             context,
             Formatter(),

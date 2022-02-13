@@ -8,7 +8,7 @@ import android.provider.CalendarContract
 import android.util.Log
 
 
-class EventProvider {
+class EventReader {
 
     fun getEvent(context: Context): MutableList<EventItem> {
         // 検索対象のカレンダーの _ID
@@ -42,7 +42,7 @@ class EventProvider {
         // カーソルから各プロパティを取得する
         while (cur.moveToNext()) {
 
-            val event = EventItem()
+            val event = EventItem(context)
 
             // カーソルから各プロパティを取得する
             event.calenderId = cur.getString(0)
@@ -56,6 +56,24 @@ class EventProvider {
             event.eventTimezone = cur.getString(8)
             event.eventEndTimezone = cur.getString(9)
             event.duration = cur.getString(10)
+            event.allDay = cur.getString(11)
+            event.rrule = cur.getString(12)
+            event.rdate = cur.getString(13)
+            event.exrule = cur.getString(14)
+            event.exdate = cur.getString(15)
+            event.originalId = cur.getString(16)
+            event.originalSyncId = cur.getString(17)
+            event.originalInstanceTime = cur.getString(18)
+            event.originalAllDay = cur.getString(19)
+            event.accessLevel = cur.getString(20)
+            event.availability = cur.getString(21)
+            event.guestsCanModify = cur.getString(22)
+            event.guestsCanInviteOthers = cur.getString(23)
+            event.guestsCanSeeGuests = cur.getString(24)
+            event.customAppPackage = cur.getString(25)
+            event.customAppURI = cur.getString(26)
+            event.uid2445 = cur.getString(27)
+            event.displayColor = cur.getString(28)
 
             // ログ出力 (Body)
             val content = event.getCsvRecord()
