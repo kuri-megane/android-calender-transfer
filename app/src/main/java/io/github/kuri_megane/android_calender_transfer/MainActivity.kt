@@ -9,13 +9,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        // カレンダーリスト出力用CSVの準備
+        val calenderWriter = StorageReadWrite(applicationContext, "calender-list.csv")
+        calenderWriter.writeHeader(EventItemToQuery() as ItemInterface)
+
         // カレンダーリストの取得
-        val calenderListProvider = CalenderListProvider()
-        val calenderList = calenderListProvider.getCalenderList(applicationContext)
+        val calenderListProvider = CalenderProvider()
+        // TODO: 型キャストの警告を修正する
+        val calenderList = calenderListProvider.getCalenderList(applicationContext) as MutableList<ItemInterface>
+        calenderWriter.writeRecords(calenderList)
+
+        // イベントリスト出力用CSVの準備
+        val eventWriter = StorageReadWrite(applicationContext, "event.csv")
+        eventWriter.writeHeader(EventItemToQuery() as ItemInterface)
 
         // イベントリストの取得
-        val eventListProvider = CalenderEventProvider()
-        val eventList = eventListProvider.getEvent(applicationContext)
+        val eventListProvider = EventProvider()
+        // TODO: 型キャストの警告を修正する
+        val eventLists = eventListProvider.getEvent(applicationContext) as MutableList<ItemInterface>
+        eventWriter.writeRecords(eventLists)
 
     }
 

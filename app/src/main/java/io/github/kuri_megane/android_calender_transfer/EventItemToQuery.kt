@@ -2,20 +2,20 @@ package io.github.kuri_megane.android_calender_transfer
 
 import android.provider.CalendarContract
 
-class CalenderEventItem {
+class EventItemToQuery : ItemInterface{
 
     /**
      *  アプリと同期アダプタのどちらからも書き込み可能
      */
 
     // イベントが属するカレンダーの_ID
-    private var calenderId: Map<Int, String> = mapOf(1 to CalendarContract.Events.CALENDAR_ID)
+    private var calenderId: String? =  CalendarContract.Events.CALENDAR_ID
 
     // イベントの主催者(所有者)のメールアドレス。
-    private var organizer: Map<Int, String> = mapOf(2 to CalendarContract.Events.ORGANIZER)
+    private var organizer: String = CalendarContract.Events.ORGANIZER
 
     // イベントのタイトル
-    private var title: Map<Int, String> = mapOf(3 to CalendarContract.Events.TITLE)
+    private var title: String = CalendarContract.Events.TITLE
 
     // イベントの開催場所
     private var eventLocation: String = CalendarContract.Events.EVENT_LOCATION
@@ -102,36 +102,20 @@ class CalenderEventItem {
     // イベントの実際の表示色 EVENT_COLORが未設定の場合にはCALENDAR_COLORが使用される
     private var displayColor: String = CalendarContract.Events.DISPLAY_COLOR
 
-//    fun getList(): Array<String> {
-//        return arrayOf(
-//            calenderId, organizer, title, eventLocation, description, eventColor,
-//            dtstart, dtend, eventTimezone, eventEndTimezone, duration, allDay,
-//            rrule, rdate, exrule, exdate,
-//            originalId, originalSyncId, originalInstanceTime, originalAllDay,
-//            accessLevel, availability,
-//            guestsCanModify, guestsCanInviteOthers, guestsCanSeeGuests,
-//            customAppPackage, customAppURI,
-//            uid2445, displayColor
-//        )
-//    }
-
-    fun getList(): Array<Map<Int, String>> {
+    override fun getValueArray(): Array<String?> {
         return arrayOf(
-            calenderId, organizer, title
+            this.calenderId,
+            this.organizer,
+            this.title,
+            this.eventLocation,
+            this.description,
+            this.eventColor,
+            this.dtstart,
+            this.dtend,
+            this.dtend,
+            this.eventTimezone,
+            this.eventEndTimezone,
+            this.duration,
         )
     }
-
-    fun getValue(): Array<String?> {
-        return arrayOf(
-            CalendarContract.Events.CALENDAR_ID,
-            CalendarContract.Events.ORGANIZER,
-            CalendarContract.Events.TITLE,
-            CalendarContract.Events.DESCRIPTION,
-        )
-    }
-
-    fun getIndex(): Array<Int> {
-        return arrayOf(0, 1, 2, 3)
-    }
-
 }
