@@ -10,7 +10,10 @@ import android.util.Log
 class EventRegister(context: Context) {
     private val query = EventItemToQuery()
     var cr: ContentResolver = context.contentResolver
-    private var calenderId = 36
+
+    // コピー先カレンダーID
+    // TODO: カレンダーを変えるときはここの数字を変える
+    private var calenderId = 79
 
     fun registerEvent(events: MutableList<EventItem>) {
         for (e in events) {

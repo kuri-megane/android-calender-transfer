@@ -11,8 +11,9 @@ import android.util.Log
 class EventReader {
 
     fun getEvent(context: Context): MutableList<EventItem> {
-        // 検索対象のカレンダーの _ID
-        val targetCalendarId: Long = 7
+        // コピー元のカレンダーのID
+        // TODO: カレンダーを変えるときはここの数字を変える
+        val targetCalendarId: Long = 70
 
         // クエリ条件を設定する
         val uri: Uri = CalendarContract.Events.CONTENT_URI

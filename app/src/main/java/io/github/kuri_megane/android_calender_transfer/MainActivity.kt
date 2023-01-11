@@ -9,6 +9,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // TODO: カレンダーのパーミッション取得を実装する
 
         // カレンダーリスト出力用CSVの準備
         val calenderWriter = StorageReadWrite(applicationContext, "calender-list.csv")
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // イベントリストの取得
         val eventListProvider = EventReader()
         val eventLists = eventListProvider.getEvent(applicationContext)
-        // eventWriter.writeEventRecords(eventLists)
+        eventWriter.writeEventRecords(eventLists)
 
         // イベントの登録
         val register = EventRegister(applicationContext)
