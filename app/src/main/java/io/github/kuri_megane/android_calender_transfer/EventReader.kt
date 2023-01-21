@@ -17,9 +17,23 @@ class EventReader {
 
         // クエリ条件を設定する
         val uri: Uri = CalendarContract.Events.CONTENT_URI
-        val selection = "(" + CalendarContract.Events.CALENDAR_ID + " = ?)"
-        val selectionArgs = arrayOf(targetCalendarId.toString())
-        val sortOrder: String? = null
+
+//        val selection = "(" + CalendarContract.Events.CALENDAR_ID + " = ?)"
+//        val selectionArgs = arrayOf(targetCalendarId.toString())
+
+        val selection = "((${CalendarContract.Events.CALENDAR_ID } = ?) AND (" +
+                "${CalendarContract.Events.DTSTART} >= ?) AND (" +
+                "${CalendarContract.Events.DTSTART} <= ?))"
+        val selectionArgs = arrayOf(
+            targetCalendarId.toString(),  // CALENDAR_ID
+            "1554044400000"  // 取得開始日 2019-04-01 00:00:00
+//            "1648738800000"  // 取得開始日 2022-04-01 00:00:00
+            ,
+//            "1585666799000"  // 取得終了日 2020-03-31 23:59:59
+            "1680274799000"  // 取得終了日 2023-03-31 23:59:59
+        )
+
+        val sortOrder = "${CalendarContract.Events.DTSTART} ASC "
 
         // SQLクエリ用 取得リスト
         val eventProjection = EventItemToQuery().getValueArray()
